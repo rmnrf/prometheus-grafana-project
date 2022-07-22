@@ -76,13 +76,12 @@ services:
       - kanban-ui
       - kanban-app
       - pgadmin
-    depends_on:
       - fluentd
     logging:
       driver: "fluentd"
       options:
         fluentd-async-connect: 'true'
-        fluentd-address: fluentd:24224
+        fluentd-address: localhost:24224
         tag: nginx
   
   prometheus:
@@ -101,7 +100,7 @@ services:
       - 3000:3000
     volumes:
       - grafana-data:/var/lib/grafana
-      - ./grafana/dashboads/:/var/lib/grafana/dashboads/
+      - ./grafana/dashboards/:/var/lib/grafana/dashboards/
       - ./grafana/provisioning/:/etc/grafana/provisioning/
     depends_on:
       - prometheus

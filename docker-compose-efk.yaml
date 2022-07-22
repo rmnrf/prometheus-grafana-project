@@ -7,7 +7,7 @@ volumes:
 services:
 
   elasticsearch:
-    image: elasticsearch:7.13.1
+    image: elasticsearch:7.17.0
     container_name: elasticsearch
     environment:
       - xpack.security.enabled=false
@@ -22,7 +22,7 @@ services:
       - elasticsearch-data:/usr/share/elasticsearch/data
 
   kibana:
-    image: kibana:7.13.1
+    image: kibana:7.17.0
     container_name: kibana
     restart: always
     links:
@@ -50,4 +50,4 @@ services:
       - "24224:24224"
       - "24224:24224/udp"
     environment:
-      FLUENTD_CONF: fluentd.conf
+      FLUENTD_CONF: fluent.conf
