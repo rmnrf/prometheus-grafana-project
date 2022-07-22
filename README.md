@@ -1,17 +1,11 @@
-## Kanban Application
+## Prometheus-grafana-project
 
-This is a simple implementation of a Kanban Board, a tool that helps visualize and manage work. Originally it was first created in Toyota automotive, but nowadays it's widely used in software development.
-
-A Kanban Board is usually made of 3 columns - *TODO*, *InProgres*s & *Done*. In each column there are Post-it notes that represents task and their status.
-
-As already stated this project is an implementation of such board and made of 3 separate Docker containers that holds:
-
+- Nginx
+- Prometheus/Grafana
+- Exporters
 - PostgreSQL database
 - Java backend (Spring Boot)
 - Angular frontend
-
-
-
 
 ---
 
@@ -25,6 +19,19 @@ Instructions how to install **Docker** on [Ubuntu](https://docs.docker.com/insta
 
 
 ### How to run it?
+
+Add to /etc/hosts:
+
+```
+127.0.0.1 test.com
+127.0.0.1 kanban.test.com
+127.0.0.1 pgadmin.test.com
+127.0.0.1 swagger.test.com
+127.0.0.1 prometheus.test.com
+127.0.0.1 grafana.test.com
+127.0.0.1 nginx.test.com
+127.0.0.1 kibana.test.com
+```
 
 The entire application can be run with a single command on a terminal:
 
