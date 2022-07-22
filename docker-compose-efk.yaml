@@ -1,0 +1,53 @@
+version: '3'
+
+volumes:
+  elasticsearch-data:
+
+
+services:
+
+  elasticsearch:
+    image: elasticsearch:7.13.1
+    container_name: elasticsearch
+    environment:
+      - xpack.security.enabled=false
+      - discovery.type=single-node
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    restart: always
+    expose:
+      - 9200
+    ports:
+      - "9200:9200"
+    volumes:
+      - elasticsearch-data:/usr/share/elasticsearch/data
+
+  kibana:
+    image: kibana:7.13.1
+    container_name: kibana
+    restart: always
+    links:
+      - "elasticsearch"
+    depends_on:
+      - "elasticsearch"
+    ports:
+      - "5601:5601"
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+      - ELASTICSEARCH_URL=http://elasticsearch:9200
+
+  fluentd:
+    build: ./fluentd
+    container_name: fluentd
+    restart: always
+    volumes:
+      - ./fluentd/conf:/fluentd/etc
+      - nginx-logs-data:/var/log/nginx
+    links:
+      - "elasticsearch"
+    depends_on:
+      - "elasticsearch"
+    ports:
+      - "24224:24224"
+      - "24224:24224/udp"
+    environment:
+      FLUENTD_CONF: fluentd.conf

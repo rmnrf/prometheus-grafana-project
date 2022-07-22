@@ -1,0 +1,41 @@
+version: '3'
+
+services:
+
+  nginx-exporter:
+    image: nginx/nginx-prometheus-exporter:latest
+    container_name: nginx-exporter
+    ports:
+      - 9113:9113
+    environment:
+      SCRAPE_URI: http://nginx/metrics
+      TELEMETRY_PATH: /prometheus
+      NGINX_RETRIES: 10
+    depends_on:
+      - nginx
+
+  node-exporter:
+    image: quay.io/prometheus/node-exporter:latest
+    container_name: node-exporter
+    command:
+      - '--path.rootfs=/host'
+    ports:
+      - 9100:9100
+    restart: unless-stopped
+    volumes:
+      - '/:/host:ro,rslave'
+
+  postgres-exporter:
+    image: quay.io/prometheuscommunity/postgres-exporter:latest
+    container_name: postgres-exporter
+    restart: always
+    env_file:
+      - .env
+    environment:
+      - DATA_SOURCE_URI=${DATA_SOURCE_URI}
+      - DATA_SOURCE_USER=${DATA_SOURCE_USER}
+      - DATA_SOURCE_PASS=${DATA_SOURCE_PASS}
+    ports:
+      - "9187:9187"
+    depends_on:
+      - kanban-postgres
