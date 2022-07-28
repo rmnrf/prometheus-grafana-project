@@ -92,6 +92,8 @@ services:
     volumes:
       - prometheus-data:/prometheus
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    links:
+      - cadvisor:cadvisor
   
   grafana:
     image: grafana/grafana
@@ -105,3 +107,20 @@ services:
     depends_on:
       - prometheus
     restart: always
+  
+  cadvisor:
+    image: google/cadvisor:latest
+    container_name: cadvisor
+    expose:
+      - 8081
+    ports:
+      - 8081:8081
+    command:
+    - '-port=8081'
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      # If using WSL2
+      # for more: https://github.com/google/cadvisor/issues/2648
+      - /mnt/windows_docker/:/rootfs/var/lib/docker:ro
