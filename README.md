@@ -1,7 +1,12 @@
 ## Prometheus-grafana-project
 
+![image](https://user-images.githubusercontent.com/24195286/181587774-d91ed0e2-d5d0-4c5b-8e24-8910a57f8340.png)
+
+
 - Nginx
 - Prometheus/Grafana
+- EFK Stack
+- Cadvisor
 - Exporters
 - PostgreSQL database
 - Java backend (Spring Boot)
@@ -20,6 +25,9 @@ Instructions how to install **Docker** on [Ubuntu](https://docs.docker.com/insta
 
 ### How to run it?
 
+If you using WSL2 with Windows Docker:
+https://github.com/google/cadvisor/issues/2648
+
 Add to /etc/hosts:
 
 ```
@@ -31,6 +39,7 @@ Add to /etc/hosts:
 127.0.0.1 grafana.test.com
 127.0.0.1 nginx.test.com
 127.0.0.1 kibana.test.com
+127.0.0.1 cadvisor.test.com
 ```
 
 The entire application can be run with a single command on a terminal:
